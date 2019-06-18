@@ -1,9 +1,11 @@
+import numpy as np
+
 class percolation:
 
 
 	def __init__(self, N):
 
-		pass
+		self.sites = np.array([i for i in range(N+2)])
 
 
 	def open(self, row, column):
@@ -24,3 +26,11 @@ class percolation:
 	def percolates(self):
 
 		pass
+
+def main():
+
+	p = percolation(10)
+	print(p.sites)
+
+if __name__ == "__main__":
+	main()
