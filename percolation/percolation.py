@@ -1,4 +1,4 @@
-import numpy as np
+from utils import *
 
 class percolation:
 
@@ -27,10 +27,24 @@ class percolation:
 
 		pass
 
+	def find(self, p, q):
+
+		return self.sites[p] == self.sites[q]
+
+	def union(self, p, q):
+
+		self.sites[p] = self.sites[q]
+
+
+
 def main():
 
 	p = percolation(10)
 	print(p.sites)
+
+	print(p.find(3, 8))
+	p.union(3, 8)
+	print(p.find(3, 8))
 
 if __name__ == "__main__":
 	main()
