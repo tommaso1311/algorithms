@@ -31,6 +31,7 @@ class percolation:
 	def root(self, i):
 
 		while i != self.sites[i]:
+			self.sites[i] = self.sites[self.sites[i]]
 			i = self.sites[i]
 
 		return i
@@ -63,6 +64,7 @@ def main():
 
 	p.union(8, 3)
 	p.union(8, 5)
+	p.union(7, 5)
 
 	print(p.sites)
 	print(p.sizes)
