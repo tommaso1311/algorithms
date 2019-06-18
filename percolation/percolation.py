@@ -27,19 +27,23 @@ class percolation:
 
 		pass
 
+	def root(self, i):
+
+		while i != self.sites[i]:
+			i = self.sites[i]
+
+		return i
+
 	def connected(self, p, q):
 
-		return self.sites[p] == self.sites[q]
+		return self.root(p) == self.root(q)
 
 	def union(self, p, q):
 
-		for i in range(len(self.sites)):
+		i = self.root(p)
+		j = self.root(q)
 
-			pid = self.sites[p]
-			qid = self.sites[q]
-
-			if self.sites[i] == pid:
-				self.sites[i] = qid
+		self.sites[i] = j
 
 
 
