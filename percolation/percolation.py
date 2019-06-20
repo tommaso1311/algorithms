@@ -5,18 +5,27 @@ class percolation:
 
 	def __init__(self, N):
 
+		self.N = N
 		self.sites = np.array([i for i in range(N*N+2)])
 		self.sizes = np.ones(N*N+2)
+
+		self.opened = [False]*(N*N+2)
+		self.opened[0] = True
+		self.opened[-1] = True
 
 
 	def open(self, row, column):
 
-		pass
+		index = (row)*self.N + column + 1
+
+		self.opened[index] = True
 
 
 	def is_open(self, row, column):
 
-		pass
+		index = (row)*self.N + column + 1
+
+		return self.opened[index]
 
 
 	def is_full(self, row, column):
@@ -26,7 +35,7 @@ class percolation:
 
 	def percolates(self):
 
-		pass
+		return self.root(self.sites[0]) == self.root(self.sites[-1])
 
 
 	def root(self, i):
@@ -64,6 +73,10 @@ def main():
 	p = percolation(4)
 	print(p.sites)
 	print(p.sizes)
+	print(p.opened)
+	p.open(1, 1)
+	print(p.opened)
+	print(p.is_open(1, 1))
 
 
 if __name__ == "__main__":
