@@ -75,15 +75,19 @@ class percolation:
 
 def main():
 
-	p = percolation(4)
-	p.open(1, 2)
-	p.open(2, 2)
-	p.open(2, 3)
-	p.open(3, 3)
-	p.open(0, 1)
-	p.open(0, 2)
-	print(p.percolates())
+	N = 1000
+	p = percolation(N)
+	
+	while not p.percolates():
 
+		i = np.random.randint(N)
+		j = np.random.randint(N)
+
+		index = (i)*N + j + 1
+
+		if not p.is_open(index): p.open(i, j)
+
+	print((sum(p.opened)-2)/(N*N))
 
 if __name__ == "__main__":
 	main()
