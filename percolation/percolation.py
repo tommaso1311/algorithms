@@ -17,20 +17,25 @@ class percolation:
 	def open(self, row, column):
 
 		index = (row)*self.N + column + 1
-
 		self.opened[index] = True
 
+		top = (row-1)*self.N + column + 1 if row > 0 else 0
+		bottom = (row+1)*self.N + column + 1 if row < self.N-1 else self.N*self.N+1
+		left = (row)*self.N + column if column > 0 else None
+		right = (row)*self.N + column + 2 if column < self.N-1 else None
 
-	def is_open(self, row, column):
+		adj = [left, top, right, bottom]
 
-		index = (row)*self.N + column + 1
+		for space in adj:
+			if self.is_open(space): self.union(index, space)
 
-		return self.opened[index]
 
+	def is_open(self, index):
 
-	def is_full(self, row, column):
-
-		pass
+		if index == None:
+			return False
+		else:
+			return self.opened[index]		
 
 
 	def percolates(self):
@@ -71,12 +76,13 @@ class percolation:
 def main():
 
 	p = percolation(4)
-	print(p.sites)
-	print(p.sizes)
-	print(p.opened)
-	p.open(1, 1)
-	print(p.opened)
-	print(p.is_open(1, 1))
+	p.open(1, 2)
+	p.open(2, 2)
+	p.open(2, 3)
+	p.open(3, 3)
+	p.open(0, 1)
+	p.open(0, 2)
+	print(p.percolates())
 
 
 if __name__ == "__main__":
