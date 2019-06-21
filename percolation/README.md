@@ -5,6 +5,7 @@ Description
 ## TODO
 
 - [ ] Correct open and is_open parameters to be the same (not i,j and index respectively)
+- [ ] Check if numpy is really necessary (a list() should do it fine)
 - [ ] Check if the opened list is truly necessary (maybe by marking with -1 or None closed sites?)
 - [ ] Measure code performance
 - [ ] Add comments and asserts

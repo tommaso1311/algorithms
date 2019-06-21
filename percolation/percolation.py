@@ -6,36 +6,35 @@ class percolation:
 	def __init__(self, N):
 
 		self.N = N
-		self.sites = np.array([i for i in range(N*N+2)])
-		self.sizes = np.ones(N*N+2)
+		self.sites = [None]*(N*N+2)
+		self.sites[0] = 0
+		self.sites[-1] = N*N+1
+		self.sizes = [0]*(N*N+2)
+		self.sizes[0] = 1
+		self.sizes[-1] = 1
 
-		self.opened = [False]*(N*N+2)
-		self.opened[0] = True
-		self.opened[-1] = True
 
+	def open(self, index):
 
-	def open(self, row, column):
+		self.sites[index] = index
+		self.sizes[index] = 1
 
-		index = (row)*self.N + column + 1
-		self.opened[index] = True
+		top = index-self.N if index-self.N >=0 else 0
+		bottom = index+self.N if index+self.N <= self.N*self.N else self.N*self.N+1
+		left = index-1 if (index-1)%self.N != 0 else None
+		right = index+1 if index%self.N != 0 else None
 
-		top = (row-1)*self.N + column + 1 if row > 0 else 0
-		bottom = (row+1)*self.N + column + 1 if row < self.N-1 else self.N*self.N+1
-		left = (row)*self.N + column if column > 0 else None
-		right = (row)*self.N + column + 2 if column < self.N-1 else None
+		adj = [top, right, bottom, left]
+		adj = [x for x in adj if x != None]
 
-		adj = [left, top, right, bottom]
-
-		for space in adj:
-			if self.is_open(space): self.union(index, space)
+		for site in adj:
+			if self.sites[site] != None: self.union(index, site)
 
 
 	def is_open(self, index):
 
-		if index == None:
-			return False
-		else:
-			return self.opened[index]		
+		if self.sites[index] is None: return False
+		else: return True
 
 
 	def percolates(self):
@@ -80,14 +79,11 @@ def main():
 	
 	while not p.percolates():
 
-		i = np.random.randint(N)
-		j = np.random.randint(N)
+		index = np.random.randint(1, N*N+1)
 
-		index = (i)*N + j + 1
+		if not p.is_open(index): p.open(index)
 
-		if not p.is_open(index): p.open(i, j)
-
-	print((sum(p.opened)-2)/(N*N))
+	print(1-len([x for x in p.sites if x is None])/(N*N))
 
 if __name__ == "__main__":
 	main()
