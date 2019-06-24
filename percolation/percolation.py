@@ -1,42 +1,87 @@
 import numpy as np
 
 class percolation:
+	"""
+	Class used to compute percolation threshold
+
+	Attributes
+	----------
+	N : int
+		NxN is the number of sites in the model
+	sites : list
+		the sites of the model
+	_sizes : list
+		sizes of the connected sites
+
+	Methods
+	-------
+	open(index)
+		used to open a new site and connect it with adjacentes sites
+	_is_open(index)
+		returns if a site is open or not
+	percolates()
+		returns if the model percolates or not
+	_root(i)
+		returns the root of the i-th site
+	_union(i, j)
+		connects two sites
+	"""
 
 
 	def __init__(self, N):
+		"""
+		Parameters
+		----------
+		N : int
+		"""
 
-		self.N = N
+		self._N = N
+
+		# initializing sites
 		self.sites = [None]*(N*N+2)
 		self.sites[0] = 0
 		self.sites[-1] = N*N+1
-		self.sizes = [0]*(N*N+2)
-		self.sizes[0] = 1
-		self.sizes[-1] = 1
+
+		# initializing sizes
+		self._sizes = [0]*(N*N+2)
+		self._sizes[0] = 1
+		self._sizes[-1] = 1
 
 
 	def open(self, index):
+		"""
+		Parameters
+		----------
+		index : int
+		"""
 
-		if not self.is_open(index):
+		if not self._is_open(index):
 
 			self.sites[index] = index
-			self.sizes[index] = 1
+			self._sizes[index] = 1
 
-			top = index-self.N if index-self.N >=0 else 0
-			bottom = index+self.N if index+self.N <= self.N*self.N else self.N*self.N+1
-			left = index-1 if (index-1)%self.N != 0 else None
-			right = index+1 if index%self.N != 0 else None
+			# getting adjacent sites indices
+			top = index-self._N if index-self._N >=0 else 0
+			bottom = index+self._N if index+self._N <= self._N*self._N else self._N*self._N+1
+			left = index-1 if (index-1)%self._N != 0 else None
+			right = index+1 if index%self._N != 0 else None
 
 			adj = [top, right, bottom, left]
 			adj = [x for x in adj if x != None]
 
 			for site in adj:
-				if self.sites[site] != None: self.union(index, site)
+				if self.sites[site] != None: self._union(index, site)
 
 		else:
 			pass
 
 
-	def is_open(self, index):
+	def _is_open(self, index):
+		"""
+		Parameters
+		----------
+		index : int
+		"""
 
 		if self.sites[index] is None: return False
 		else: return True
@@ -44,10 +89,15 @@ class percolation:
 
 	def percolates(self):
 
-		return self.root(self.sites[0]) == self.root(self.sites[-1])
+		return self._root(self.sites[0]) == self._root(self.sites[-1])
 
 
-	def root(self, i):
+	def _root(self, i):
+		"""
+		Parameters
+		----------
+		index : int
+		"""
 
 		while i != self.sites[i]:
 			self.sites[i] = self.sites[self.sites[i]]
@@ -56,25 +106,27 @@ class percolation:
 		return i
 
 
-	def connected(self, p, q):
+	def _union(self, p, q):
+		"""
+		Parameters
+		----------
+		p : int
+		q : int
+		"""
 
-		return self.root(p) == self.root(q)
-
-
-	def union(self, p, q):
-
-		i = self.root(p)
-		j = self.root(q)
+		i = self._root(p)
+		j = self._root(q)
 
 		if i == j:
 			pass
 
-		if self.sizes[i] < self.sizes[j]:
+		# connecting the smallest to the biggest
+		if self._sizes[i] < self._sizes[j]:
 			self.sites[i] = j
-			self.sizes[j] += self.sizes[i]
+			self._sizes[j] += self._sizes[i]
 		else:
 			self.sites[j] = i
-			self.sizes[i] += self.sizes[j]
+			self._sizes[i] += self._sizes[j]
 
 
 if __name__ == "__main__":

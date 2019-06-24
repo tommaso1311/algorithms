@@ -4,6 +4,16 @@ import percolation
 
 
 def stats(N, T):
+	"""
+	Used to compute the mean threshold, confidence intervals and time taken
+
+	Parameters
+	----------
+	N : int
+		NxN is the number of sites in the model
+	T : int
+		nuumbers of experiments
+	"""
 
 	thresholds = []
 	times = []
@@ -33,6 +43,18 @@ def stats(N, T):
 
 
 def print_threshold_confidence_intervals(N, T, v):
+	"""
+	Used to print results
+
+	Parameters
+	----------
+	N : int
+		NxN is the number of sites in the model
+	T : int
+		nuumbers of experiments
+	v : bool
+		verbose output (time taken)
+	"""
 
 	m, s, t = stats(N, T)
 
