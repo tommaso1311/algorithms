@@ -6,9 +6,12 @@ def main():
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument("N", action="store", help="NxN is number of sites", type=int)
-	parser.add_argument("T", action="store", help="number of tests", type=int)
-	parser.add_argument("-v", "--verbose", action="store_true", help="prints the time")
+	parser.add_argument("N", action="store",
+						help="NxN is number of sites", type=int)
+	parser.add_argument("T", action="store",
+						help="number of tests", type=int)
+	parser.add_argument("-v", "--verbose", action="store_true",
+						help="prints the mean time taken")
 
 	args = parser.parse_args()
 
