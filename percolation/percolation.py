@@ -118,7 +118,7 @@ class percolation:
 		j = self._root(q)
 
 		if i == j:
-			pass
+			return
 
 		# connecting the smallest to the biggest
 		if self._sizes[i] < self._sizes[j]:
