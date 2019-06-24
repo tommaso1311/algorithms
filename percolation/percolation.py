@@ -16,19 +16,24 @@ class percolation:
 
 	def open(self, index):
 
-		self.sites[index] = index
-		self.sizes[index] = 1
+		if not self.is_open(index):
 
-		top = index-self.N if index-self.N >=0 else 0
-		bottom = index+self.N if index+self.N <= self.N*self.N else self.N*self.N+1
-		left = index-1 if (index-1)%self.N != 0 else None
-		right = index+1 if index%self.N != 0 else None
+			self.sites[index] = index
+			self.sizes[index] = 1
 
-		adj = [top, right, bottom, left]
-		adj = [x for x in adj if x != None]
+			top = index-self.N if index-self.N >=0 else 0
+			bottom = index+self.N if index+self.N <= self.N*self.N else self.N*self.N+1
+			left = index-1 if (index-1)%self.N != 0 else None
+			right = index+1 if index%self.N != 0 else None
 
-		for site in adj:
-			if self.sites[site] != None: self.union(index, site)
+			adj = [top, right, bottom, left]
+			adj = [x for x in adj if x != None]
+
+			for site in adj:
+				if self.sites[site] != None: self.union(index, site)
+
+		else:
+			pass
 
 
 	def is_open(self, index):
