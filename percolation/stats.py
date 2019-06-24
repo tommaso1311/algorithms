@@ -1,59 +1,48 @@
-# import time
-import percolation
+import time
 import numpy as np
-# import matplotlib.pyplot as plt
+import percolation
 
-def threshold(N, T):
+
+def stats(N, T):
 
 	thresholds = []
+	times = []
 
 	for _ in range(T):
 
 		model = percolation.percolation(N)
+		start = time.time()
 
 		while not model.percolates():
 
 			index = np.random.randint(1, N*N+1)
 			model.open(index)
 
-		t = 1-len([x for x in model.sites if x is None])/(N*N)
-		thresholds.append(t)
+		finish = time.time()
 
-	m = np.mean(thresholds)
-	s = np.std(thresholds)
+		threshold = 1-len([x for x in model.sites if x is None])/(N*N)
+		thresholds.append(threshold)
+		times.append(finish-start)
 
-	return m, s
+	mean_thresholds = np.mean(thresholds)
+	std_thresholds = np.std(thresholds)
 
-def print_confidence_intervals(N, T):
+	mean_time = np.mean(times)
 
-	m, s = threshold(N, T)
+	return mean_thresholds, std_thresholds, mean_time
 
-	print("mean =", m)
+
+def print_threshold_confidence_intervals(N, T, v):
+
+	m, s, t = stats(N, T)
+
+	print("mean threshold =", m)
 	print("standard deviation =", s)
 	print("confidence intervals (95%) =", m-1.96*s/np.sqrt(T), m+1.96*s/np.sqrt(T))
 
-# N = [x for x in range(1, 201)]
-# print(N)
-# times = []
+	if v:
+		print("mean time taken =", t)
 
-# for n in N:
 
-# 	print(n)
-
-# 	p = percolation.percolation(n)
-
-# 	start = time.time()
-
-# 	while not p.percolates():
-
-# 		index = np.random.randint(1, n*n+1)
-
-# 		if not p.is_open(index): p.open(index)
-
-# 	finish = time.time()
-# 	times.append(finish-start)
-
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.plot(N, times)
-# plt.show()
+if __name__ == "__main__":
+	print("This is a library not a program!")

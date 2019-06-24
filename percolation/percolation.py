@@ -77,18 +77,5 @@ class percolation:
 			self.sizes[i] += self.sizes[j]
 
 
-def main():
-
-	N = 1000
-	p = percolation(N)
-	
-	while not p.percolates():
-
-		index = np.random.randint(1, N*N+1)
-
-		if not p.is_open(index): p.open(index)
-
-	print(1-len([x for x in p.sites if x is None])/(N*N))
-
 if __name__ == "__main__":
-	main()
+	print("This is a library not a program!")
